@@ -60,6 +60,13 @@ class AppSettings(object):
             'ADAPTER', 'invitations.adapters.BaseInvitationsAdapter')
 
     @property
+    def KEY_LENGTH(self):
+        """
+        Adjust length of invite key
+        """
+        return self._setting("KEY_LENGTH", 64)
+
+    @property
     def EMAIL_MAX_LENGTH(self):
         """
         Adjust max_length of e-mail addresses

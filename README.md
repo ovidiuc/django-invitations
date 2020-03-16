@@ -129,6 +129,10 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
     Used for custom integrations. Set this to `ACCOUNT_ADAPTER` if using django-allauth.
 
+    `INVITATIONS_KEY_LENGTH` (default=`64`)
+
+    Integer.  Use it to customize the length of the invitation key. It should be smaller or equal to 64.
+
 *  `INVITATIONS_EMAIL_MAX_LENGTH` (default=`254`)
 
     If set to `None` (the default), invitation email max length will be set up to 254. Set this to an integer value to set up a custome email max length value.

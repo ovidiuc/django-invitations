@@ -10,6 +10,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ImproperlyConfigured
 
 from . import signals
 from .adapters import get_invitations_adapter
@@ -24,8 +25,13 @@ class Invitation(AbstractBaseInvitation):
                                    default=timezone.now)
 
     @classmethod
-    def create(cls, email, inviter=None, **kwargs):
-        key = get_random_string(64).lower()
+    def create(cls, email, inviter=None, key_length=app_settings.KEY_LENGTH,
+               **kwargs):
+        max_allowed_key_length = cls.key.field.max_length
+        if(key_length > max_allowed_key_length):
+            raise ImproperlyConfigured(
+                "Key length can not be bigger than %d" % max_allowed_key_length)
+        key = get_random_string(key_length).lower()
         instance = cls._default_manager.create(
             email=email,
             key=key,
