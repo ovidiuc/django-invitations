@@ -9,7 +9,15 @@ InvitationAdminChangeForm = get_invitation_admin_change_form()
 
 
 class InvitationAdmin(admin.ModelAdmin):
-    list_display = ('email', 'sent', 'accepted')
+    list_display = ('short_key', 'email', 'sent', 'accepted')
+
+    def short_key(self, obj):
+        if len(obj.key) > 20:
+            return '%s...' % obj.key[:20]
+        else:
+            return obj.key
+
+    short_key.short_description = 'Key'
 
     def get_form(self, request, obj=None, **kwargs):
         if obj:

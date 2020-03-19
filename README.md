@@ -141,6 +141,10 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
     If set to `None` (the default), invitation email subjects will be prefixed with the name of the current Site in brackets (such as `[example.com]`). Set this to a string to for a custom email subject prefix, or an empty string for no prefix.
 
+    `INVITATIONS_EMAIL_NON_UNIQUE_AND_NULL` (default=`False`)
+
+    Boolean.  Specifies whether the email the invite is sent to can be `Null` and non-unique. Changing this value on an existing project requires creating/applying migrations and, if changing from `True` to `False`, making sure the existing email addresses in the database are unique. It is usefull when you want to generate invite codes for offline use and you don't know the email address of the user. Not tested with `django-allauth`
+
 *  `INVITATIONS_INVITATION_MODEL` (default=`invitations.Invitation`)
 
     App registry path of the invitation model used in the current project, for customization purposes.

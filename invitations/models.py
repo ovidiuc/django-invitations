@@ -19,8 +19,11 @@ from .base_invitation import AbstractBaseInvitation
 
 
 class Invitation(AbstractBaseInvitation):
-    email = models.EmailField(unique=True, verbose_name=_('e-mail address'),
-                              max_length=app_settings.EMAIL_MAX_LENGTH)
+    email = models.EmailField(unique=(not app_settings.EMAIL_NON_UNIQUE_AND_NULL),
+                              verbose_name=_('e-mail address'),
+                              max_length=app_settings.EMAIL_MAX_LENGTH,
+                              blank=app_settings.EMAIL_NON_UNIQUE_AND_NULL,
+                              null=app_settings.EMAIL_NON_UNIQUE_AND_NULL)
     created = models.DateTimeField(verbose_name=_('created'),
                                    default=timezone.now)
 
@@ -46,6 +49,8 @@ class Invitation(AbstractBaseInvitation):
         return expiration_date <= timezone.now()
 
     def send_invitation(self, request, **kwargs):
+        if not self.email:
+            return
         current_site = kwargs.pop('site', Site.objects.get_current())
         invite_url = reverse('invitations:accept-invite',
                              args=[self.key])

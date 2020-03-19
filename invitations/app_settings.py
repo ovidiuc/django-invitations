@@ -81,6 +81,13 @@ class AppSettings(object):
         return self._setting("EMAIL_SUBJECT_PREFIX", None)
 
     @property
+    def EMAIL_NON_UNIQUE_AND_NULL(self):
+        """
+        Specifies whether the field storing the email the invite is sent to can be null.
+        """
+        return self._setting("EMAIL_NON_UNIQUE_AND_NULL", False)
+
+    @property
     def INVITATION_MODEL(self):
         """
         Subject-line prefix to use for Invitation model setup
