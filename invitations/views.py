@@ -196,5 +196,9 @@ def accept_invite_after_signup(sender, request, user, **kwargs):
 
 
 if app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
-    signed_up_signal = get_invitations_adapter().get_user_signed_up_signal()
-    signed_up_signal.connect(accept_invite_after_signup)
+    try:
+        import allauth
+        signed_up_signal = get_invitations_adapter().get_user_signed_up_signal()
+        signed_up_signal.connect(accept_invite_after_signup)
+    except ImportError as e:
+        pass

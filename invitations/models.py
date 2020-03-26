@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ImproperlyConfigured
+from django.shortcuts import get_object_or_404
 
 from . import signals
 from .adapters import get_invitations_adapter
@@ -42,7 +43,18 @@ class Invitation(AbstractBaseInvitation):
             **kwargs)
         return instance
 
+    @classmethod
+    def verify_invitation(cls, key):
+        queryset = cls.objects.all()
+        invitation = get_object_or_404(queryset, key=key)
+        if(not invitation.accepted and not invitation.key_expired()):
+            return invitation
+        else:
+            return None
+
     def key_expired(self):
+        if not self.sent:
+            return False
         expiration_date = (
             self.sent + datetime.timedelta(
                 days=app_settings.INVITATION_EXPIRY))
@@ -80,7 +92,10 @@ class Invitation(AbstractBaseInvitation):
             inviter=self.inviter)
 
     def __str__(self):
-        return "Invite: {0}".format(self.email)
+        if len(self.key) > 20:
+            return "Invite: {0}".format(self.key[:20])
+        else:
+            return "Invite: {0}".format(self.key)
 
 
 # here for backwards compatibility, historic allauth adapter

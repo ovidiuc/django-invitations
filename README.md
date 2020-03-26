@@ -101,7 +101,8 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
     Boolean. If `True`, invitations will be accepted after users finish signup.
     If `False`, invitations will be accepted right after the invitation link is clicked.
     Note that this only works with Allauth for now, which means `ACCOUNT_ADAPTER` has to be
-    `'invitations.models.InvitationsAdapter'`.
+    `'invitations.models.InvitationsAdapter'`. If Allauth is not present, you will have to
+    implement the `accept invite` action in your own codebase.
 
 *   `INVITATIONS_GONE_ON_ACCEPT_ERROR` (default=`True`)
 
