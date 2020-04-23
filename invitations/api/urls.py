@@ -3,7 +3,7 @@ from rest_framework import routers
 from .views import InvitationViewSet
 
 router = routers.DefaultRouter()
-router.register(r'invitations', InvitationViewSet)
+router.register(r'invitations/invitation', InvitationViewSet)
 
 app_name = 'invitations'
 
