@@ -6,7 +6,7 @@
 
 ## Warning
 
-**I've made this fork from /bee-keeper/django-invitations to customize the package for my particular needs.**
+**I've made this fork from [bee-keeper/django-invitations](https://github.com/bee-keeper/django-invitations) to customize the package for my particular needs.**
 
 **Therefore the code will not have in mind public distribution. DO NOT USE "AS IS"**
 
